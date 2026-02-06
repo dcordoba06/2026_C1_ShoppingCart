@@ -7,6 +7,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities-DTOs", "Entities-D
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0_Entities-DTOs", "0_Entities-DTOs", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1_DataAccess", "1_DataAccess", "{423AF876-CD29-4F64-AE17-F4719CD13FC7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts database", "Scripts database", "{281643D5-AC02-4DAE-8C21-9A91F9741E6B}"
+	ProjectSection(SolutionItems) = preProject
+		tblProduct.sql = tblProduct.sql
+		tblUser.sql = tblUser.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +31,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F2E4F11C-1DE6-4E4E-BC4F-94ED67381011} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{281643D5-AC02-4DAE-8C21-9A91F9741E6B} = {423AF876-CD29-4F64-AE17-F4719CD13FC7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F9FBC45D-778A-428C-9E49-50B3935F34BA}
