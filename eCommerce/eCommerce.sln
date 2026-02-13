@@ -12,6 +12,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts database", "Scripts database", "{281643D5-AC02-4DAE-8C21-9A91F9741E6B}"
 	ProjectSection(SolutionItems) = preProject
 		spCreateUser.sql = spCreateUser.sql
+		spDelUser.sql = spDelUser.sql
+		sqUpdUser.sql = sqUpdUser.sql
 		tblProduct.sql = tblProduct.sql
 		tblUser.sql = tblUser.sql
 	EndProjectSection

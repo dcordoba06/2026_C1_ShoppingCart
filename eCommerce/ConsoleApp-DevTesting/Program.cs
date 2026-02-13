@@ -1,27 +1,32 @@
 ﻿
 
+using DataAccess.CRUD;
 using DataAccess.DAO;
+using Entities_DTOs;
 
 public class Program
 {
     public static void Main(string[] args)
     {
 
-        //Prueba de funcionamieento del DAO.
+        var uc = new UserCrudFactory();
 
-        var sql = SqlDAO.GetInstance();
+        var user = new User();
 
-        var sqlOperation = new SqlOperation { ProcedureName = "CRE_USER_PR" };
-        sqlOperation.AddStringParam("P_NAME", "Dennis");
-        sqlOperation.AddStringParam("P_LAST_NAME", "Cordoba");
-        sqlOperation.AddStringParam("P_PASSWORD", "Qwerty123");
-        sqlOperation.AddStringParam("P_EMAIL", "dcordoba@ucenfotec.ac.cr");
-        sqlOperation.AddDateTimeParam("P_BIRTH_DATE", DateTime.Now);
-        sqlOperation.AddStringParam("P_STATUS", "AC");
+        Console.WriteLine("Digite el nombre del usuario, apellido, contrasenia, email, fecha nacimiento, estado -Separado por coma-");
+        var text=Console.ReadLine();
+        var vals = text.Split(",");
 
+        user.Name= vals[0];
+        user.LastName= vals[1];
+        user.Password= vals[2];
+        user.Email= vals[3];
+        user.BirthDate= DateTime.Parse(vals[4]);
+        user.Status= vals[5]; 
+        
         try
         {
-            sql.ExecuteProcedure(sqlOperation);
+            uc.Create(user);
             Console.WriteLine("Ejecutado de manera exitosa");
         }
         catch (Exception ex)
