@@ -60,5 +60,54 @@ namespace DataAccess.DAO
                 }
             }
         }
+
+
+        //Metodo para ejecutar SP que permiten el retorno de datos
+        public List<Dictionary<string, object>> ExecuteQueryProcedure(SqlOperation operation)
+        {
+
+            var lstResults=new List<Dictionary<string, object>>();
+
+            using (var conn = new SqlConnection(connectionString))
+            {
+                using (var cmd = new SqlCommand(operation.ProcedureName, conn)
+                {
+                    CommandType = System.Data.CommandType.StoredProcedure
+                })
+                {
+                    //Set de los parametros
+                    foreach (var param in operation.Parameters)
+                    {
+                        cmd.Parameters.Add(param);
+                    }
+
+                    //Ejecutar el SP contra la base de datos
+                    conn.Open();
+                    
+                    //Ejecucion del SP que retorna data desde la base de datos
+                    var reader=cmd.ExecuteReader();
+
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            var row=new Dictionary<string, object>();
+
+                            for (var index = 0; index < reader.FieldCount; index++) { 
+                            
+                                var key=reader.GetName(index);
+                                var value=reader.GetValue(index);
+
+                                row[key] = value;
+                            }
+                            lstResults.Add(row);
+                        }
+
+                    }
+
+                }
+            }
+            return lstResults;
+        }
     }
 }

@@ -11,6 +11,15 @@ public class Program
 
         var uc = new UserCrudFactory();
 
+
+        var lstUsers = uc.RetrieveAll<User>();
+
+        foreach(var u in lstUsers)
+        {
+            Console.WriteLine(u.Name);  
+        }
+
+
         var user = new User();
 
         Console.WriteLine("Digite el nombre del usuario, apellido, contrasenia, email, fecha nacimiento, estado -Separado por coma-");

@@ -50,12 +50,46 @@ namespace DataAccess.CRUD
 
         public override List<T> RetrieveAll<T>()
         {
-            throw new NotImplementedException();
+
+            var lstUsers=new List<T>();
+
+            var operation=new SqlOperation();
+            operation.ProcedureName = "RET_ALL_USER_PR";
+
+            var lstResults= sqlDAO.ExecuteQueryProcedure(operation);
+
+            if (lstResults.Count > 0)
+            {
+                foreach (var item in lstResults)
+                {
+                    var user = BuildUser(item);
+                    lstUsers.Add((T)Convert.ChangeType(user, typeof(T)));
+                }
+            }
+
+            return lstUsers;
+           
         }
 
         public override T RetrieveById<T>(int id)
         {
-            throw new NotImplementedException();
+            
+            var operation = new SqlOperation();
+            operation.ProcedureName = "RET_USER_BY_ID_PR";
+            operation.AddIntParam("P_ID", id);
+
+            var lstResults = sqlDAO.ExecuteQueryProcedure(operation);
+
+            if (lstResults.Count > 0)
+            {
+                var item = lstResults[0];
+
+                var user= BuildUser(item);
+
+                return (T) Convert.ChangeType(user, typeof(T));
+                
+            }
+            return default(T);
         }
 
         public override void Update(BaseDTO baseDTO)
@@ -77,5 +111,24 @@ namespace DataAccess.CRUD
             sqlDAO.ExecuteProcedure(sqlOperation);
 
         }
+
+        //Metodo que construye el DDTO del usuario a partir de la data que viene de la consulta en BD
+        private User BuildUser(Dictionary<string, object> row)
+        {
+            var user = new User()
+            {
+                Id = (int)row["ID"],
+                Created = (DateTime)row["Created"],
+                Name = (string)row["Name"],
+                LastName = (string)row["LastName"],
+                Password = (string)row["Password"],
+                Email = (string)row["Email"],
+                BirthDate = (DateTime)row["BirthDate"],
+                Status = (string)row["Status"],
+            };
+            return user;
+
+        }
+
     }
 }
