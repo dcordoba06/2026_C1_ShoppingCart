@@ -29,18 +29,104 @@ namespace AppCore
                     EmailManager.SendWelcomeEmail(u);
 
                 }
+                else
+                {
+                    throw new Exception("El usuario no cumple con la edad minima para registrarse en el sistema");
+                }
 
 
             }
             catch (Exception ex) { 
-            
+                ManageException(ex);
             }
 
         }
 
-        private bool IsOver18(User u) {
+        public void Update(User u)
+        {
 
-            return true;
+            try
+            {
+                //Valida que el usuario sea mayor de 18
+                if (IsOver18(u))
+                {
+                    var uCrud = new UserCrudFactory();
+                    uCrud.Update(u);
+
+                }
+                else
+                {
+                    throw new Exception("El usuario no cumple con la edad minima para registrarse en el sistema");
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                ManageException(ex);
+            }
+
+        }
+
+        public void Delete(User u)
+        {
+            try
+            {
+                var uCrud = new UserCrudFactory();
+                uCrud.Delete(u);
+
+            }
+            catch (Exception ex)
+            {
+                ManageException(ex);
+
+            }
+        }
+
+        public List<User> RetrieveAll()
+        {
+            var list = new List<User>();
+            try
+            {
+                var uCrud = new UserCrudFactory();
+                list=uCrud.RetrieveAll<User>();
+            }
+            catch (Exception ex) {
+
+                ManageException(ex);
+            }
+            
+            return list;
+        }
+
+        public User RetrieveUserById(int id)
+        {
+           var user = new User();
+
+            try
+            {
+                var uCrud = new UserCrudFactory();
+                user = uCrud.RetrieveById<User>(id);
+            }
+            catch (Exception ex) {
+                ManageException(ex);
+            }
+
+            return user;
+        }
+
+
+        private bool IsOver18(User user) {
+
+            var currentDate = DateTime.Now;
+
+            int age = currentDate.Year - user.BirthDate.Year;
+
+            if (user.BirthDate > currentDate.AddYears(-age).Date)
+            {
+                age--;
+            }
+            return age >= 18;
         }
 
         //Agregar metodos update, delete, retrieve

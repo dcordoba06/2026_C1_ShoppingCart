@@ -8,5 +8,14 @@ namespace AppCore
 {
     public class BaseManager
     {
+
+        protected void ManageException(Exception exception)
+        {
+            //TO DO: Escribir las excepciones en un archivo o en bd
+
+
+            throw exception;
+        }
+
     }
 }
