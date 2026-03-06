@@ -12,6 +12,24 @@ function UserViewController() {
     //metodo "constructor"
     this.InitView = function () {
         this.LoadTable();
+        //Asociar el evento de crear al boton
+        $('#btnCreate').click(function () {
+            var vc = new UserViewController();
+            vc.Create();
+        })
+
+
+        //Asociar evento de update
+        $('#btnUpdate').click(function () {
+            var vc = new UserViewController();
+            vc.Update();
+        })
+
+        //Asociar evento de update
+        $('#btnDelete').click(function () {
+            var vc = new UserViewController();
+            vc.Delete();
+        })
     }
 
     //Metodo de carga de la tabla
@@ -39,7 +57,114 @@ function UserViewController() {
             "columns": columns
         });
 
+        //asignar evento de mapeo del dto seleccionado con el form
+        $('#tblUsers tbody').on('click', 'tr', function () {
+
+            var row = $(this).closest('tr');
+
+            //extraer el DTO al que se le dio click
+            var userDTO = $('#tblUsers').DataTable().row(row).data();
+
+            //cargar el DTO en el form
+            $('#txtId').val(userDTO.id);
+            $('#txtName').val(userDTO.name);
+            $('#txtLastName').val(userDTO.lastName);
+            $('#txtEmail').val(userDTO.email);
+            $('#txtStatus').val(userDTO.status);
+
+            //formato de la fechga
+            var onlyDate = userDTO.birthDate.split('T');
+            $('#txtBirthDate').val(onlyDate[0]);
+
+        })
+
      }
+
+    //Metodo para la creacion de un usuario
+
+    this.Create = function () {
+
+        var userDTO = {};
+        //Set con valores default
+        userDTO.id = 0;
+        userDTO.created = "2026-01-01";
+        userDTO.updated = "2026-01-01";
+
+        //valores que capturamos de pantalla
+        userDTO.name = $('#txtName').val();
+        userDTO.lastName = $('#txtLastName').val();
+        userDTO.email = $('#txtEmail').val();
+        userDTO.status = $('#txtStatus').val();
+        userDTO.birthDate = $('#txtBirthDate').val();
+        userDTO.password = $('#txtPwd').val();
+
+        //Enviar al API
+        var ca = new ControlActions();
+        var urlEndPoint = this.API_ControllerName + "/Create";
+
+        ca.PostToAPI(urlEndPoint, userDTO, function () {
+            //recargar la tabla
+            $('#tblUsers').DataTable().ajax.reload();
+        })
+
+    }
+
+    //Metodo para la actualizacion del usuario
+    this.Update = function () {
+
+        var userDTO = {};
+        //Set con valores default
+       
+        userDTO.created = "2026-01-01";
+        userDTO.updated = "2026-01-01";
+
+        //valores que capturamos de pantalla
+        userDTO.id = $('#txtId').val();
+        userDTO.name = $('#txtName').val();
+        userDTO.lastName = $('#txtLastName').val();
+        userDTO.email = $('#txtEmail').val();
+        userDTO.status = $('#txtStatus').val();
+        userDTO.birthDate = $('#txtBirthDate').val();
+        userDTO.password = $('#txtPwd').val();
+
+        //enviar al API
+        var ca = new ControlActions();
+        var urlEndPoint = this.API_ControllerName + "/Update";
+
+        ca.PutToAPI(urlEndPoint, userDTO, function () {
+            //recargar la tabla
+            $('#tblUsers').DataTable().ajax.reload();
+        })
+    }
+
+    //metodo de delete
+    this.Delete = function () {
+
+        var userDTO = {};
+        //Set con valores default
+
+        userDTO.created = "2026-01-01";
+        userDTO.updated = "2026-01-01";
+
+        //valores que capturamos de pantalla
+        userDTO.id = $('#txtId').val();
+        userDTO.name = $('#txtName').val();
+        userDTO.lastName = $('#txtLastName').val();
+        userDTO.email = $('#txtEmail').val();
+        userDTO.status = $('#txtStatus').val();
+        userDTO.birthDate = $('#txtBirthDate').val();
+        userDTO.password = $('#txtPwd').val();
+
+        //enviar al API
+        var ca = new ControlActions();
+        var urlEndPoint = this.API_ControllerName + "/Delete";
+
+        ca.DeleteToAPI(urlEndPoint, userDTO, function () {
+            //recargar la tabla
+            $('#tblUsers').DataTable().ajax.reload();
+        })
+    }
+
 }
 
 //Instancia y render del controlador
